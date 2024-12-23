@@ -4,7 +4,8 @@ package org.example;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        Lv1 lv1 = new Lv1();
-        lv1.doLv1();
+
+        Lv2 lv2 = new Lv2();
+        lv2.doLv2();
     }
 }
