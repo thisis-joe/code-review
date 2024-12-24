@@ -5,7 +5,7 @@ package org.example;
 public class Main {
     public static void main(String[] args) {
 
-        Lv2 lv2 = new Lv2();
-        lv2.doLv2();
+        Lv8 lv8 = new Lv8();
+        lv8.doLv8();
     }
 }
