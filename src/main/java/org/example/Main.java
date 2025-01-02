@@ -5,7 +5,7 @@ package org.example;
 public class Main {
     public static void main(String[] args) {
 
-        QuoteApp app = new QuoteApp();
+        App app = new App();
         app.run();
     }
 }
