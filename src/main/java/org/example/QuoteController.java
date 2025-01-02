@@ -1,70 +1,31 @@
 package org.example;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-//메인 기능
-class QuoteLv9 {
-    int id;
-    String quote;
-    String author;
-
-    QuoteLv9(int id, String quote, String author) {
-        this.id = id;
-        this.quote = quote;
-        this.author = author;
-    }
-
-    @Override
-    public String toString() {
-        return id + " / " + author + " / " + quote;
-    }
-}
-
-public class Lv9 {
-    private final Scanner scan = new Scanner(System.in);
-    private final List<QuoteLv9> quotes = new ArrayList<>();
+public class QuoteController {
+    private final List<Quote> quotes = new ArrayList<>();
+    private final Scanner scan;
     private int nextId = 1;
 
-    public void doLv9() {
-        System.out.println("== 명언 앱 ==");
-
-        while (true) {
-            System.out.printf("명령) ");
-            String command = scan.nextLine().trim();
-
-            switch (command.split("\\?")[0]) {
-                case "등록":
-                    registerQuote();
-                    break;
-                case "목록":
-                    listQuotes();
-                    break;
-                case "종료":
-                    System.out.println("프로그램을 종료합니다.");
-                    return;
-                case "삭제":
-                    deleteQuote(command);
-                    break;
-                case "수정":
-                    modifyQuote(command);
-                    break;
-                default:
-                    System.out.println("유효하지 않은 명령어입니다.");
-            }
-        }
+    public QuoteController(Scanner scan) {
+        this.scan = scan;
     }
 
-    private void registerQuote() {
+    // 1. 명언 등록
+    public void registerQuote() {
         System.out.printf("명언 : ");
         String quoteText = scan.nextLine().trim();
         System.out.printf("작가 : ");
         String author = scan.nextLine().trim();
 
-        quotes.add(new QuoteLv9(nextId, quoteText, author));
+        quotes.add(new Quote(nextId, quoteText, author));
         System.out.println(nextId++ + "번 명언이 등록되었습니다.");
     }
 
-    private void listQuotes() {
+    // 2. 명언 목록
+    public void listQuotes() {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
@@ -77,9 +38,10 @@ public class Lv9 {
         }
     }
 
-    private void deleteQuote(String command) {
+    // 3. 명언 삭제
+    public void deleteQuote(String command) {
         try {
-            int idToDelete = getIdFromCommand(command);
+            int idToDelete = parseIdFromCommand(command);
             boolean removed = quotes.removeIf(quote -> quote.id == idToDelete);
 
             if (removed) {
@@ -92,10 +54,11 @@ public class Lv9 {
         }
     }
 
-    private void modifyQuote(String command) {
+    // 4. 명언 수정
+    public void modifyQuote(String command) {
         try {
-            int idToModify = getIdFromCommand(command);
-            QuoteLv9 targetQuote = findQuoteById(idToModify);
+            int idToModify = parseIdFromCommand(command);
+            Quote targetQuote = findQuoteById(idToModify);
 
             if (targetQuote != null) {
                 System.out.println("명언(기존) : " + targetQuote.quote);
@@ -115,12 +78,14 @@ public class Lv9 {
         }
     }
 
-    private int getIdFromCommand(String command) {
+    // 명령어에서 ID 추출
+    private int parseIdFromCommand(String command) {
         return Integer.parseInt(command.split("=")[1].trim());
     }
 
-    private QuoteLv9 findQuoteById(int id) {
-        for (QuoteLv9 quote : quotes) {
+    // ID로 명언 찾기
+    private Quote findQuoteById(int id) {
+        for (Quote quote : quotes) {
             if (quote.id == id) {
                 return quote;
             }
